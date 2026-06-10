@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pe-come | 潮乃森・沖縄市 観光ナビ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Shippori+Mincho:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#00b8b0;
+  --dteal:#007a78;
+  --ocean:#0a4f6e;
+  --wave:#1a7fa0;
+  --coral:#e85d3a;
+  --orange:#f5a623;
+  --sand:#fdf3e0;
+  --sky:#d8f0f8;
+  --leaf:#2e7d4f;
+  --gold:#d4a853;
+  --white:#fffef8;
+  --dark:#1a2a30;
+  --mid:#5a7080;
+  --light:#f0f8fb;
+  --border:#c8e4f0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  background:var(--white);
+  color:var(--dark);
+  overflow-x:hidden;
+}
+
+/* ===== NAV ===== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(255,254,248,0.92);
+  backdrop-filter:blur(14px);
+  border-bottom:2px solid var(--border);
+  height:58px;display:flex;align-items:center;
+  padding:0 20px;gap:16px;
+}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.nav-logo-mark{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--teal),var(--dteal));
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:20px;box-shadow:0 3px 12px rgba(0,184,176,0.35);
+}
+.nav-logo-text{
+  font-family:'Shippori Mincho',serif;
+  font-size:20px;font-weight:700;color:var(--dark);letter-spacing:2px;
+}
+.nav-logo-text em{color:var(--teal);font-style:normal;}
+.nav-links{display:flex;gap:2px;flex:1;justify-content:center;}
+.nav-link{
+  padding:7px 14px;border-radius:8px;cursor:pointer;
+  font-size:12px;font-weight:700;color:var(--mid);
+  text-decoration:none;transition:all 0.18s;
+  border:none;background:transparent;font-family:inherit;
+}
+.nav-link:hover{color:var(--teal);background:rgba(0,184,176,0.08);}
+.nav-link.active{color:var(--teal);background:rgba(0,184,176,0.12);}
+.nav-fav{
+  display:flex;align-items:center;gap:6px;
+  background:var(--coral);color:#fff;
+  border:none;padding:8px 16px;border-radius:20px;
+  font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;
+  white-space:nowrap;flex-shrink:0;transition:all 0.2s;
+}
+.nav-fav:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(232,93,58,0.35);}
+.fav-count{
+  background:#fff;color:var(--coral);
+  width:18px;height:18px;border-radius:50%;
+  font-size:10px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  background:linear-gradient(160deg,#00c8c0 0%,#00a8b0 30%,#0a7090 60%,#0a4f6e 100%);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  padding-top:58px;
+}
+/* 波形装飾 */
+.hero-wave{
+  position:absolute;bottom:-2px;left:0;right:0;
+  height:100px;overflow:hidden;
+}
+.hero-wave svg{display:block;width:100%;height:100%;}
+
+/* 泡泡 浮遊装飾 */
+.bubble{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  animation:bubbleFloat linear infinite;
+}
+@keyframes bubbleFloat{
+  0%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-30px) scale(1.05);}
+  100%{transform:translateY(0) scale(1);}
+}
+
+/* 天気ウィジェット */
+.weather-widget{
+  position:absolute;top:80px;right:28px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:18px;padding:14px 18px;
+  text-align:center;color:#fff;
+  animation:fadeIn 1s ease 0.5s both;
+}
+.w-date{font-size:10px;font-weight:700;letter-spacing:1px;opacity:0.85;margin-bottom:4px;}
+.w-city{font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:8px;}
+.w-temp{font-size:2rem;font-weight:900;line-height:1;}
+.w-temp span{font-size:12px;font-weight:400;opacity:0.8;}
+.w-sub{font-size:10px;opacity:0.75;margin-top:4px;}
+.w-icon{font-size:1.8rem;margin-bottom:4px;}
+
+/* キャラクター */
+.chara-wrap{
+  position:absolute;bottom:100px;right:60px;
+  animation:charaFloat 4s ease-in-out infinite;
+}
+@keyframes charaFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-14px);}
+}
+.chara-bubble{
+  position:absolute;top:-70px;right:40px;
+  background:#fff;border-radius:16px 16px 4px 16px;
+  padding:8px 12px;font-size:11px;font-weight:700;
+  color:var(--dark);white-space:nowrap;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  animation:fadeIn 1s ease 1.2s both;
+}
+.chara-bubble::after{
+  content:'';position:absolute;bottom:-8px;left:12px;
+  border:8px solid transparent;border-top-color:#fff;border-bottom:0;
+}
+.chara-body{
+  width:90px;height:90px;
+  background:linear-gradient(135deg,#fff8e0,#ffeeb0);
+  border-radius:50%;border:4px solid #fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:44px;box-shadow:0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* ヒーローコンテンツ */
+.hero-content{
+  flex:1;display:flex;flex-direction:column;
+  align-items:flex-start;justify-content:center;
+  padding:40px 40px 120px;
+  max-width:600px;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);
+  color:#fff;padding:5px 14px;border-radius:20px;
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  margin-bottom:20px;animation:fadeUp 0.8s ease both;
+}
+.hero-title{
+  font-family:'Shippori Mincho',serif;
+  font-size:clamp(2rem,5.5vw,3.6rem);
+  font-weight:700;color:#fff;line-height:1.15;
+  margin-bottom:14px;animation:fadeUp 0.8s ease 0.15s both;
+}
+.hero-title .hl{color:var(--gold);}
+.hero-sub{
+  font-size:clamp(0.88rem,2vw,1rem);
+  color:rgba(255,255,255,0.75);line-height:1.9;
+  margin-bottom:32px;animation:fadeUp 0.8s ease 0.3s both;
+}
+.hero-btns{
+  display:flex;gap:10px;flex-wrap:wrap;
+  animation:fadeUp 0.8s ease 0.45s both;
+}
+.btn-hero-p{
+  background:#fff;color:var(--teal);
+  border:none;padding:13px 28px;border-radius:25px;
+  font-size:14px;font-weight:900;cursor:pointer;font-family:inherit;
+  box-shadow:0 6px 22px rgba(0,0,0,0.18);transition:all 0.25s;
+  display:flex;align-items:center;gap:7px;
+}
+.btn-hero-p:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,0.22);}
+.btn-hero-s{
+  background:rgba(255,255,255,0.15);color:#fff;
+  border:2px solid rgba(255,255,255,0.4);
+  padding:11px 24px;border-radius:25px;
+  font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:all 0.25s;display:flex;align-items:center;gap:7px;
+}
+.btn-hero-s:hover{background:rgba(255,255,255,0.25);}
+
+/* スクロール誘導 */
+.scroll-hint{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  animation:fadeIn 1s ease 1.5s both;
+}
+.scroll-arrow{
+  width:28px;height:28px;border-right:2px solid rgba(255,255,255,0.5);
+  border-bottom:2px solid rgba(255,255,255,0.5);
+  transform:rotate(45deg);animation:bounce 1.4s ease-in-out infinite;
+}
+@keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0);}50%{transform:rotate(45deg) translateY(6px);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ===== タグ検索 ===== */
+.tag-section{
+  background:var(--white);
+  padding:52px 0 40px;
+  border-bottom:2px solid var(--border);
+}
+.section-inner{max-width:1100px;margin:0 auto;padding:0 24px;}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.sec-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;color:var(--dark);margin-bottom:6px;}
+.sec-desc{font-size:13px;color:var(--mid);line-height:1.8;margin-bottom:28px;}
+
+.tag-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:12px;
+}
+.tag-btn{
+  background:var(--white);border:2px solid var(--border);
+  border-radius:16px;padding:18px 10px;cursor:pointer;
+  transition:all 0.22s;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+}
+.tag-btn:hover{border-color:var(--teal);background:rgba(0,184,176,0.06);transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,184,176,0.14);}
+.tag-btn.on{border-color:var(--teal);background:rgba(0,184,176,0.1);}
+.tag-ico{font-size:1.8rem;}
+.tag-name{font-size:12px;font-weight:700;color:var(--dark);}
+.tag-name em{font-style:normal;color:var(--teal);font-size:10px;display:block;margin-top:1px;}
+
+/* ===== スポット一覧 ===== */
+.spots-section{background:var(--light);padding:52px 0;}
+.spots-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;}
+.spots-more{
+  background:transparent;border:2px solid var(--teal);color:var(--teal);
+  padding:7px 18px;border-radius:20px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all 0.2s;
+}
+.spots-more:hover{background:var(--teal);color:#fff;}
+
+/* 横スクロール */
+.hscroll-wrap{
+  overflow-x:auto;padding:4px 24px 16px;margin:0 -24px;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.hscroll-wrap::-webkit-scrollbar{height:4px;}
+.hscroll-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.hscroll-row{display:flex;gap:14px;width:max-content;}
+
+/* スポットカード */
+.scard{
+  width:220px;background:#fff;border-radius:20px;
+  overflow:hidden;cursor:pointer;flex-shrink:0;
+  box-shadow:0 2px 12px rgba(0,80,100,0.09);
+  border:2px solid transparent;transition:all 0.22s;
+  position:relative;
+}
+.scard:hover{transform:translateY(-5px);box-shadow:0 10px 28px rgba(0,80,100,0.16);border-color:var(--teal);}
+.scard-img{
+  height:130px;display:flex;align-items:center;justify-content:center;
+  font-size:3.2rem;position:relative;
+}
+.scard-fav{
+  position:absolute;top:9px;right:9px;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,0.85);border:none;
+  font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+.scard-fav:hover{transform:scale(1.2);}
+.scard-fav.on{background:rgba(232,93,58,0.12);}
+.coupon-badge{
+  position:absolute;top:9px;left:9px;
+  background:var(--orange);color:#fff;
+  font-size:10px;font-weight:900;
+  padding:3px 9px;border-radius:8px;
+  box-shadow:0 2px 8px rgba(245,166,35,0.4);
+}
+.open-badge{
+  position:absolute;bottom:9px;left:9px;
+  background:rgba(46,125,79,0.9);color:#fff;
+  font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;
+}
+.closed-badge{
+  position:absolute;bottom:9px;left:9px;
+  background:rgba(180,50,50,0.85);color:#fff;
+  font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;
+}
+.scard-body{padding:12px 14px 14px;}
+.scard-cat{font-size:10px;font-weight:700;color:var(--teal);letter-spacing:0.05em;margin-bottom:3px;}
+.scard-name{font-size:14px;font-weight:900;color:var(--dark);margin-bottom:5px;line-height:1.3;}
+.scard-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:7px;}
+.stag{background:var(--sky);color:var(--ocean);padding:2px 7px;border-radius:6px;font-size:10px;font-weight:700;}
+.scard-coupon-row{
+  background:linear-gradient(90deg,rgba(245,166,35,0.1),rgba(232,93,58,0.07));
+  border:1px solid rgba(245,166,35,0.35);
+  border-radius:8px;padding:6px 10px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:6px;
+}
+.scard-coupon-txt{font-size:11px;font-weight:700;color:#a06000;}
+.scard-coupon-use{
+  background:var(--orange);color:#fff;border:none;
+  border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+}
+
+/* ===== 特集 ===== */
+.special-section{background:var(--white);padding:52px 0;}
+.special-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+.sp-card{
+  border-radius:20px;overflow:hidden;cursor:pointer;
+  position:relative;min-height:200px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  transition:all 0.25s;
+}
+.sp-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.18);}
+.sp-card-bg{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:6rem;
+}
+.sp-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(10,30,50,0.75) 0%,rgba(10,30,50,0.1) 60%);
+}
+.sp-card-body{position:relative;z-index:1;padding:18px 20px;}
+.sp-tag{
+  display:inline-block;background:var(--teal);color:#fff;
+  font-size:10px;font-weight:700;padding:2px 9px;border-radius:6px;margin-bottom:7px;
+}
+.sp-title{font-size:16px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:4px;}
+.sp-desc{font-size:12px;color:rgba(255,255,255,0.78);line-height:1.6;}
+
+/* ===== お気に入り ===== */
+.fav-section{
+  background:var(--light);padding:52px 0;
+  border-top:2px solid var(--border);
+}
+.fav-empty{
+  text-align:center;padding:48px 20px;
+  color:var(--mid);
+}
+.fav-empty-ico{font-size:3rem;margin-bottom:12px;}
+.fav-empty-txt{font-size:14px;line-height:1.8;}
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.fcard{
+  background:#fff;border-radius:14px;padding:14px;
+  display:flex;gap:10px;align-items:center;
+  border:2px solid var(--border);cursor:pointer;transition:all 0.2s;
+  position:relative;
+}
+.fcard:hover{border-color:var(--coral);box-shadow:0 4px 14px rgba(232,93,58,0.12);}
+.fcard-ico{font-size:1.6rem;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fcard-name{font-size:12px;font-weight:700;color:var(--dark);line-height:1.4;}
+.fcard-rm{
+  position:absolute;top:6px;right:6px;
+  background:transparent;border:none;cursor:pointer;
+  font-size:14px;color:#ccc;transition:color 0.2s;
+}
+.fcard-rm:hover{color:var(--coral);}
+
+/* ===== GPS セクション ===== */
+.gps-section{
+  background:linear-gradient(135deg,var(--ocean),var(--wave));
+  overflow:hidden;
+  transition:all 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.gps-bar{
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;
+}
+.gps-bar-left{color:#fff;}
+.gps-bar-title{font-size:13px;font-weight:900;margin-bottom:2px;}
+.gps-bar-sub{font-size:11px;opacity:0.75;}
+.gps-btn{
+  background:#fff;color:var(--ocean);border:none;
+  padding:9px 20px;border-radius:20px;
+  font-size:12px;font-weight:900;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;gap:6px;transition:all 0.2s;
+  box-shadow:0 3px 12px rgba(0,0,0,0.15);
+}
+.gps-btn:hover{transform:translateY(-1px);}
+.gps-btn.on{background:var(--leaf);color:#fff;}
+.nearby-count{
+  background:var(--coral);color:#fff;
+  padding:5px 12px;border-radius:12px;font-size:11px;font-weight:700;
+}
+
+/* マップ展開エリア */
+.gps-map-area{
+  height:0;overflow:hidden;
+  transition:height 0.45s cubic-bezier(0.4,0,0.2,1);
+  position:relative;
+}
+.gps-map-area.open{height:420px;}
+@media(max-width:700px){.gps-map-area.open{height:300px;}}
+
+/* マップ内レイアウト */
+.gps-map-inner{
+  display:flex;height:100%;
+}
+#mapCanvas{display:block;flex:1;height:100%;cursor:grab;}
+#mapCanvas:active{cursor:grabbing;}
+
+/* マップ上UI */
+.map-overlay-chips{
+  position:absolute;top:10px;left:10px;
+  display:flex;flex-direction:column;gap:6px;z-index:10;
+}
+.map-chip{
+  background:rgba(10,30,50,0.82);color:#fff;
+  padding:5px 12px;border-radius:12px;font-size:11px;font-weight:700;
+  backdrop-filter:blur(6px);
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  display:flex;align-items:center;gap:5px;
+}
+/* マップ右 — スポットリスト */
+.map-spot-sidebar{
+  width:210px;flex-shrink:0;
+  background:rgba(10,20,35,0.88);
+  backdrop-filter:blur(8px);
+  overflow-y:auto;
+  border-left:1px solid rgba(255,255,255,0.1);
+}
+.map-spot-sidebar::-webkit-scrollbar{width:3px;}
+.map-spot-sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);}
+.msb-head{
+  padding:9px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.7);font-size:10px;font-weight:700;letter-spacing:1px;
+}
+.msb-item{
+  padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.06);
+  cursor:pointer;transition:background 0.15s;display:flex;gap:8px;align-items:center;
+}
+.msb-item:hover{background:rgba(255,255,255,0.07);}
+.msb-item.near{background:rgba(232,93,58,0.18);}
+.msb-ico{font-size:16px;flex-shrink:0;}
+.msb-name{font-size:11px;font-weight:700;color:#fff;line-height:1.3;}
+.msb-cpn{font-size:10px;color:var(--orange);margin-top:1px;}
+@media(max-width:700px){.map-spot-sidebar{display:none;}}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--dark);color:rgba(255,255,255,0.55);
+  padding:40px 24px;text-align:center;
+}
+.footer-logo{font-family:'Shippori Mincho',serif;font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:8px;}
+.footer-logo em{color:var(--teal);font-style:normal;}
+footer p{font-size:12px;line-height:2.2;}
+footer a{color:var(--teal);text-decoration:none;}
+
+/* ===== DETAIL MODAL ===== */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9000;
+  display:none;align-items:flex-end;justify-content:center;
+}
+.overlay.open{display:flex;}
+.dmodal{
+  background:var(--white);border-radius:24px 24px 0 0;
+  width:100%;max-width:580px;
+  animation:mup 0.38s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;max-height:88vh;display:flex;flex-direction:column;
+}
+@keyframes mup{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.dmodal-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:12px auto 0;flex-shrink:0;}
+.dmodal-close{position:absolute;top:12px;right:14px;background:#f0f0f0;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:17px;color:#888;display:flex;align-items:center;justify-content:center;}
+.dmodal-scroll{overflow-y:auto;padding:16px 20px 24px;flex:1;}
+.dm-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.dm-ico{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0;}
+.dm-name{font-size:20px;font-weight:900;color:var(--dark);}
+.dm-cat{font-size:12px;color:var(--mid);margin-top:3px;}
+.dm-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;}
+.dm-tag{padding:3px 10px;border-radius:9px;font-size:11px;font-weight:700;background:var(--sky);color:var(--ocean);}
+.dm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;}
+.dm-cell{background:var(--light);border-radius:11px;padding:10px 12px;}
+.dm-cell-l{font-size:10px;color:#888;font-weight:700;}
+.dm-cell-v{font-size:13px;font-weight:700;color:var(--dark);margin-top:2px;}
+.dm-desc{font-size:13px;color:#555;line-height:1.85;margin-bottom:14px;}
+.dm-coupon{
+  background:linear-gradient(90deg,rgba(245,166,35,0.1),rgba(232,93,58,0.07));
+  border:1.5px solid rgba(245,166,35,0.4);
+  border-radius:14px;padding:13px 16px;margin-bottom:14px;
+  display:flex;align-items:center;gap:11px;
+}
+.dm-coupon-ico{font-size:26px;}
+.dm-coupon-label{font-size:11px;color:var(--mid);font-weight:700;}
+.dm-coupon-val{font-size:18px;font-weight:900;color:var(--coral);}
+.dm-coupon-btn{
+  margin-left:auto;flex-shrink:0;
+  background:linear-gradient(135deg,var(--orange),var(--coral));
+  color:#fff;border:none;border-radius:10px;padding:9px 16px;
+  font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+}
+.dm-actions{display:flex;gap:9px;}
+.dm-reserve{flex:2;padding:14px;background:linear-gradient(135deg,var(--coral),#c0392b);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(232,93,58,0.28);transition:all 0.2s;}
+.dm-reserve:hover{transform:translateY(-1px);}
+.dm-tel{flex:1;padding:14px;background:var(--sky);color:var(--ocean);border:none;border-radius:14px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:700;}
+
+/* RESERVE */
+.rmodal{background:var(--white);border-radius:24px 24px 0 0;width:100%;max-width:480px;animation:mup 0.38s cubic-bezier(0.34,1.56,0.64,1);position:relative;padding:22px;max-height:90vh;overflow-y:auto;}
+.rmodal-title{font-size:16px;font-weight:900;margin-bottom:16px;color:var(--dark);}
+.rmodal-close{position:absolute;top:14px;right:14px;background:#f0f0f0;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:16px;color:#888;display:flex;align-items:center;justify-content:center;}
+.fg{margin-bottom:12px;}
+.fg label{display:block;font-size:11px;font-weight:700;color:#666;margin-bottom:4px;}
+.fg input,.fg select{width:100%;padding:11px 12px;border:2px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:inherit;outline:none;color:var(--dark);transition:border-color 0.2s;}
+.fg input:focus,.fg select:focus{border-color:var(--teal);}
+.r-acts{display:flex;gap:9px;margin-top:16px;}
+.r-cancel{flex:1;padding:12px;border:2px solid #e0e0e0;background:#fff;border-radius:11px;cursor:pointer;font-family:inherit;font-weight:700;color:var(--dark);}
+.r-confirm{flex:2;padding:12px;background:linear-gradient(135deg,var(--ocean),var(--wave));color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit;}
+
+/* TOAST */
+.toast-wrap{position:fixed;top:68px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:7px;max-width:300px;pointer-events:none;}
+.toast{background:var(--dark);color:#fff;padding:11px 14px;border-radius:14px;display:flex;gap:9px;align-items:center;pointer-events:all;box-shadow:0 6px 24px rgba(0,0,0,0.3);border-left:4px solid var(--coral);animation:tin 0.36s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes tin{from{transform:translateX(110%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.toast.tout{animation:tout 0.26s ease forwards;}
+@keyframes tout{to{transform:translateX(110%);opacity:0;}}
+.t-ico{font-size:22px;}
+.t-body{flex:1;}
+.t-title{font-size:12px;font-weight:900;}
+.t-msg{font-size:11px;opacity:0.72;margin-top:1px;line-height:1.5;}
+.t-act{background:var(--coral);color:#fff;border:none;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;}
+
+/* RESP */
+@media(max-width:700px){
+  .nav-links{display:none;}
+  .weather-widget{top:68px;right:14px;padding:10px 14px;}
+  .chara-wrap{right:10px;bottom:80px;}
+  .hero-content{padding:20px 20px 100px;}
+  .tag-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ===== 体験予約セクション ===== */
+.booking-section{background:var(--white);padding:52px 0;border-top:2px solid var(--border);}
+
+.bk-cattabs{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;}
+.bk-cattab{
+  padding:10px 24px;border-radius:25px;cursor:pointer;font-size:13px;font-weight:700;
+  font-family:inherit;border:2px solid var(--border);background:#fff;color:var(--mid);
+  transition:all 0.2s;
+}
+.bk-cattab:hover{border-color:var(--teal);color:var(--teal);}
+.bk-cattab.on{background:linear-gradient(135deg,var(--teal),var(--dteal));color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(0,184,176,0.3);}
+
+.bk-course-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;
+}
+.bk-course-card{
+  background:#fff;border-radius:20px;overflow:hidden;cursor:pointer;
+  border:2px solid var(--border);transition:all 0.25s;
+  box-shadow:0 2px 10px rgba(0,80,100,0.07);
+}
+.bk-course-card:hover{transform:translateY(-5px);border-color:var(--teal);box-shadow:0 10px 28px rgba(0,184,176,0.16);}
+.bk-card-img{
+  height:150px;display:flex;align-items:center;justify-content:center;
+  font-size:4rem;position:relative;
+}
+.bk-card-cat-badge{
+  position:absolute;top:10px;left:10px;
+  background:rgba(10,30,50,0.75);color:#fff;
+  font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;
+  backdrop-filter:blur(4px);
+}
+.bk-card-dur{
+  position:absolute;bottom:10px;right:10px;
+  background:rgba(255,255,255,0.88);color:var(--dark);
+  font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;
+}
+.bk-card-body{padding:14px 16px 16px;}
+.bk-card-name{font-size:15px;font-weight:900;color:var(--dark);margin-bottom:6px;}
+.bk-card-desc{font-size:12px;color:var(--mid);line-height:1.7;margin-bottom:12px;}
+.bk-card-price{
+  display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;
+  padding-top:10px;border-top:1px solid var(--border);
+}
+.bk-price-normal{font-size:12px;color:#aaa;text-decoration:line-through;}
+.bk-price-member{font-size:18px;font-weight:900;color:var(--teal);}
+.bk-price-unit{font-size:11px;color:var(--mid);}
+.bk-card-btn{
+  display:flex;align-items:center;justify-content:center;
+  margin-top:12px;padding:11px;
+  background:linear-gradient(135deg,var(--teal),var(--dteal));
+  color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;gap:6px;transition:0.2s;width:100%;
+}
+.bk-card-btn:hover{opacity:0.9;}
+
+/* 予約モーダル */
+.bk-modal{
+  background:var(--white);border-radius:24px 24px 0 0;
+  width:100%;max-width:540px;position:relative;
+  animation:mup 0.38s cubic-bezier(0.34,1.56,0.64,1);
+  max-height:92vh;display:flex;flex-direction:column;
+}
+.bk-modal-close{position:absolute;top:14px;right:14px;background:#f0f0f0;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:17px;color:#888;display:flex;align-items:center;justify-content:center;z-index:10;}
+
+/* ステップインジケーター */
+.bk-steps{
+  display:flex;align-items:center;padding:18px 20px 14px;
+  border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.bk-step{
+  display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;
+  font-size:10px;font-weight:700;color:#bbb;text-align:center;
+}
+.bk-step span{
+  width:26px;height:26px;border-radius:50%;background:#e8e8e8;color:#bbb;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;
+}
+.bk-step.on{color:var(--teal);}
+.bk-step.on span{background:linear-gradient(135deg,var(--teal),var(--dteal));color:#fff;}
+.bk-step.done span{background:var(--leaf);color:#fff;}
+.bk-step-line{flex:1;height:2px;background:var(--border);margin:0 4px;margin-bottom:14px;}
+
+/* ペイン共通 */
+.bk-pane{padding:16px 20px 20px;overflow-y:auto;flex:1;}
+
+/* コース詳細（step1） */
+.bk-course-detail{margin-bottom:14px;}
+.bkd-img{height:160px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:5rem;margin-bottom:14px;}
+.bkd-name{font-size:19px;font-weight:900;color:var(--dark);margin-bottom:6px;}
+.bkd-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.bkd-tag{background:var(--sky);color:var(--ocean);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:700;}
+.bkd-desc{font-size:13px;color:#555;line-height:1.85;margin-bottom:12px;}
+.bkd-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.bkd-info{background:var(--light);border-radius:10px;padding:9px 12px;}
+.bkd-info-l{font-size:10px;color:#888;font-weight:700;}
+.bkd-info-v{font-size:13px;font-weight:700;color:var(--dark);margin-top:2px;}
+
+/* 価格バナー */
+.bk-price-banner{
+  background:linear-gradient(90deg,rgba(0,184,176,0.08),rgba(0,122,122,0.05));
+  border:1.5px solid rgba(0,184,176,0.25);border-radius:12px;
+  padding:12px 16px;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.bpb-label{font-size:11px;color:var(--mid);font-weight:700;}
+.bpb-prices{display:flex;align-items:center;gap:10px;}
+.bpb-normal{font-size:12px;color:#aaa;text-decoration:line-through;}
+.bpb-member{font-size:20px;font-weight:900;color:var(--teal);}
+.bpb-unit{font-size:11px;color:var(--mid);}
+
+/* 人数カウンター */
+.bk-counter{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.bk-cnt-btn{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--sky);color:var(--ocean);border:none;
+  font-size:18px;cursor:pointer;font-weight:700;line-height:1;transition:0.2s;
+}
+.bk-cnt-btn:hover{background:var(--teal);color:#fff;}
+.bk-cnt-val{font-size:22px;font-weight:900;color:var(--dark);min-width:28px;text-align:center;}
+
+/* 合計金額ボックス */
+.bk-total-box{
+  background:linear-gradient(135deg,var(--ocean),var(--wave));
+  border-radius:12px;padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;
+}
+.bk-total-label{color:rgba(255,255,255,0.75);font-size:12px;font-weight:700;}
+.bk-total-val{color:#fff;font-size:22px;font-weight:900;}
+
+/* 確認カード */
+.bk-confirm-card{
+  background:var(--light);border-radius:14px;padding:14px 16px;margin-bottom:14px;
+  border:1.5px solid var(--border);
+}
+.bk-cc-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.bk-cc-row:last-child{border-bottom:none;font-weight:900;color:var(--ocean);font-size:15px;}
+.bk-cc-label{color:var(--mid);font-size:12px;}
+
+/* 会員通知 */
+.bk-member-notice{
+  background:rgba(0,184,176,0.08);border:1.5px solid rgba(0,184,176,0.25);
+  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--dteal);
+  line-height:1.7;font-weight:700;margin-top:4px;
+}
+
+/* ボタン共通 */
+.bk-next-btn{
+  width:100%;padding:13px;
+  background:linear-gradient(135deg,var(--teal),var(--dteal));
+  color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:900;
+  cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(0,184,176,0.28);transition:0.2s;
+}
+.bk-next-btn:hover{opacity:0.9;transform:translateY(-1px);}
+.bk-back-btn{
+  flex:1;padding:13px;border:2px solid var(--border);background:#fff;
+  border-radius:12px;cursor:pointer;font-family:inherit;font-weight:700;color:var(--dark);
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="#top">
+    <div class="nav-logo-mark">🏝️</div>
+    <div class="nav-logo-text">Pe<em>-come</em></div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" href="#tags">🔍 スポット検索</a>
+    <a class="nav-link" href="#spots">📍 スポット一覧</a>
+    <a class="nav-link" href="#special">✨ 特集</a>
+    <a class="nav-link" href="#gps">🗺️ マップ</a>
+    <a class="nav-link" href="#booking">🎟️ 体験予約</a>
+    <a class="nav-link" href="#fav">❤️ お気に入り</a>
+  </div>
+  <button class="nav-fav" onclick="scrollToFav()">
+    ❤️ お気に入り <div class="fav-count" id="favCount">0</div>
+  </button>
+</nav>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <!-- 浮遊バブル -->
+  <div class="bubble" style="width:200px;height:200px;top:15%;left:5%;animation-duration:7s;"></div>
+  <div class="bubble" style="width:120px;height:120px;top:60%;left:15%;animation-duration:5s;animation-delay:1s;"></div>
+  <div class="bubble" style="width:80px;height:80px;top:30%;left:50%;animation-duration:9s;animation-delay:2s;"></div>
+
+  <!-- 天気ウィジェット -->
+  <div class="weather-widget">
+    <div class="w-icon" id="wIcon">☀️</div>
+    <div class="w-date" id="wDate">2026.06.08 MON</div>
+    <div class="w-city">OKINAWA</div>
+    <div class="w-temp" id="wTemp">31<span>℃</span></div>
+    <div class="w-sub" id="wSub">半袖で快適に過ごせる気温</div>
+  </div>
+
+  <!-- キャラクター -->
+  <div class="chara-wrap">
+    <div class="chara-bubble" id="charaBubble">今日もマリン日和✨</div>
+    <div class="chara-body">🦀</div>
+  </div>
+
+  <!-- コンテンツ -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">🏝️ 潮乃森・沖縄市 地域観光ナビ</div>
+    <h1 class="hero-title">
+      沖縄市を<br>
+      <span class="hl">もっと楽しく</span>、<br>
+      もっとお得に。
+    </h1>
+    <p class="hero-sub">
+      GPS通知で近くのスポットをすぐ発見。<br>
+      会員クーポンで地元も観光もお得に楽しめる<br>
+      地域まるごとポータル。
+    </p>
+    <div class="hero-btns">
+      <button class="btn-hero-p" onclick="scrollTo('tags')">🔍 やりたいことで探す</button>
+      <button class="btn-hero-s" onclick="scrollTo('gps')">📍 マップで探す</button>
+    </div>
+  </div>
+
+  <!-- 波形 -->
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C240,90 480,10 720,50 C960,90 1200,20 1440,55 L1440,100 L0,100 Z" fill="#fffef8"/>
+    </svg>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ===== タグ検索 ===== -->
+<section class="tag-section" id="tags">
+  <div class="section-inner">
+    <div class="sec-label">Find by Activity</div>
+    <div class="sec-title">やりたいことで探す</div>
+    <div class="sec-desc">気になるカテゴリをタップしてスポットを絞り込もう！</div>
+    <div class="tag-grid" id="tagGrid">
+      <button class="tag-btn on" onclick="filterTag('all',this)"><div class="tag-ico">🗺️</div><div class="tag-name">すべて<em>ALL</em></div></button>
+      <button class="tag-btn" onclick="filterTag('marine',this)"><div class="tag-ico">🌊</div><div class="tag-name">マリン体験<em>MARINE</em></div></button>
+      <button class="tag-btn" onclick="filterTag('food',this)"><div class="tag-ico">🍜</div><div class="tag-name">グルメ<em>FOOD</em></div></button>
+      <button class="tag-btn" onclick="filterTag('music',this)"><div class="tag-ico">🎵</div><div class="tag-name">音楽・ライブ<em>MUSIC</em></div></button>
+      <button class="tag-btn" onclick="filterTag('nature',this)"><div class="tag-ico">🌺</div><div class="tag-name">自然・植物<em>NATURE</em></div></button>
+      <button class="tag-btn" onclick="filterTag('stay',this)"><div class="tag-ico">🏨</div><div class="tag-name">宿泊<em>STAY</em></div></button>
+      <button class="tag-btn" onclick="filterTag('shop',this)"><div class="tag-ico">🛍️</div><div class="tag-name">ショッピング<em>SHOP</em></div></button>
+      <button class="tag-btn" onclick="filterTag('fitness',this)"><div class="tag-ico">🏊</div><div class="tag-name">フィットネス<em>FITNESS</em></div></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GPS セクション ===== -->
+<div class="gps-section" id="gps">
+  <!-- コントロールバー -->
+  <div class="gps-bar">
+    <div class="gps-bar-left">
+      <div class="gps-bar-title">📍 GPS×ジオフェンス通知</div>
+      <div class="gps-bar-sub">ONにすると近くのスポット・クーポン情報を自動通知します</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="nearby-count" id="nearbyCount" style="display:none;">近くに 0 件</div>
+      <button class="gps-btn" id="gpsBtn" onclick="toggleGPS()">📍 位置情報をONにする</button>
+    </div>
+  </div>
+  <!-- マップ展開エリア -->
+  <div class="gps-map-area" id="gpsMapArea">
+    <div class="gps-map-inner">
+      <canvas id="mapCanvas"></canvas>
+      <!-- 左上チップ -->
+      <div class="map-overlay-chips">
+        <div class="map-chip" id="mapNearChip">📍 近くに 0 件</div>
+        <div class="map-chip" style="font-size:10px;opacity:0.8;">ドラッグ・スクロールで操作</div>
+      </div>
+      <!-- 右サイドリスト -->
+      <div class="map-spot-sidebar" id="mapSidebar">
+        <div class="msb-head">SPOTS</div>
+        <div id="mapSidebarList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== スポット一覧 ===== -->
+<section class="spots-section" id="spots">
+  <div class="section-inner">
+    <div class="spots-header">
+      <div>
+        <div class="sec-label">Spot List</div>
+        <div class="sec-title" style="margin-bottom:0;">スポット一覧</div>
+        <div style="font-size:12px;color:var(--mid);margin-top:4px;" id="spotCountTxt">全 9 件のスポット</div>
+      </div>
+      <button class="spots-more" onclick="toast('🗺️','マップ表示','フルマップ画面は近日公開予定です！',3500)">マップで見る →</button>
+    </div>
+  </div>
+  <div class="hscroll-wrap">
+    <div class="hscroll-row" id="spotRow"></div>
+  </div>
+</section>
+
+<!-- ===== 特集 ===== -->
+<section class="special-section" id="special">
+  <div class="section-inner">
+    <div class="sec-label">Special Features</div>
+    <div class="sec-title">特集</div>
+    <div class="sec-desc">潮乃森・沖縄市のとっておき体験をピックアップ。</div>
+    <div class="special-grid">
+      <div class="sp-card" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
+        <div class="sp-card-bg">🌊🐠🤿</div>
+        <div class="sp-card-overlay"></div>
+        <div class="sp-card-body">
+          <div class="sp-tag">自治会員 月1無料</div>
+          <div class="sp-title">潮乃森マリン体験<br>完全ガイド2025</div>
+          <div class="sp-desc">シュノーケル・SUP・ダイビング…夏の沖縄を全力で楽しもう</div>
+        </div>
+      </div>
+      <div class="sp-card" onclick="toast('🎵','音楽特集','コザの音楽文化を体験しよう！',4000)">
+        <div class="sp-card-bg">🎵🎸🎶</div>
+        <div class="sp-card-overlay"></div>
+        <div class="sp-card-body">
+          <div class="sp-tag">25% OFF クーポンあり</div>
+          <div class="sp-title">コザ音楽文化を<br>体感せよ</div>
+          <div class="sp-desc">島唄からロックまで。コザが誇るライブシーンへようこそ</div>
+        </div>
+      </div>
+      <div class="sp-card" onclick="toast('🍜','グルメ特集','沖縄そばを食べに行こう！',4000)">
+        <div class="sp-card-bg">🍜🥩🍺</div>
+        <div class="sp-card-overlay"></div>
+        <div class="sp-card-body">
+          <div class="sp-tag">20% OFF クーポンあり</div>
+          <div class="sp-title">ゴヤ市場から<br>夜のステーキまで</div>
+          <div class="sp-desc">コザのソウルフードを巡る食べ歩きコース完全版</div>
+        </div>
+      </div>
+      <div class="sp-card" onclick="toast('🏖️','潮乃森特集','2029年完成予定の潮乃森エリア情報',4000)">
+        <div class="sp-card-bg" style="background:linear-gradient(135deg,#0a4f6e,#1a7fa0);">🏖️🌅🏗️</div>
+        <div class="sp-card-overlay"></div>
+        <div class="sp-card-body">
+          <div class="sp-tag">2029年完成予定</div>
+          <div class="sp-title">潮乃森エリア<br>開発最新情報</div>
+          <div class="sp-desc">東部海浜開発プロジェクト・泡瀬の未来をひと足先にチェック</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 体験予約 ===== -->
+<section class="booking-section" id="booking">
+  <div class="section-inner">
+    <div class="sec-label">Experience Booking</div>
+    <div class="sec-title">体験を予約する</div>
+    <div class="sec-desc">マリンスポーツ・モビリティ体験をオンラインで簡単予約。会員価格でお得に楽しもう！</div>
+
+    <!-- カテゴリタブ -->
+    <div class="bk-cattabs" id="bkCatTabs">
+      <button class="bk-cattab on" onclick="bkFilterCat('marine',this)">🌊 マリンスポーツ</button>
+      <button class="bk-cattab"    onclick="bkFilterCat('mobility',this)">🛵 モビリティ</button>
+    </div>
+
+    <!-- コース一覧 -->
+    <div class="bk-course-grid" id="bkCourseGrid"></div>
+  </div>
+</section>
+
+<!-- 体験予約モーダル（3ステップ） -->
+<div class="overlay" id="bkOverlay">
+  <div class="bk-modal">
+    <button class="bk-modal-close" onclick="bkClose()">✕</button>
+
+    <!-- STEP インジケーター -->
+    <div class="bk-steps">
+      <div class="bk-step on" id="bkStep1Ind"><span>1</span>コース</div>
+      <div class="bk-step-line"></div>
+      <div class="bk-step" id="bkStep2Ind"><span>2</span>日時・人数</div>
+      <div class="bk-step-line"></div>
+      <div class="bk-step" id="bkStep3Ind"><span>3</span>確認・予約</div>
+    </div>
+
+    <!-- STEP 1: コース詳細確認 -->
+    <div class="bk-pane" id="bkPane1">
+      <div class="bk-course-detail" id="bkCourseDetail"></div>
+      <button class="bk-next-btn" onclick="bkGoStep(2)">日時・人数を選ぶ →</button>
+    </div>
+
+    <!-- STEP 2: 日時・人数 -->
+    <div class="bk-pane" id="bkPane2" style="display:none;">
+      <div class="bk-price-banner" id="bkPriceBanner"></div>
+      <div class="fg"><label>体験日</label><input type="date" id="bkDate" onchange="bkUpdateTotal()"></div>
+      <div class="fg"><label>開始時間</label>
+        <select id="bkTime" onchange="bkUpdateTotal()">
+          <option value="09:00">09:00〜</option>
+          <option value="11:00">11:00〜</option>
+          <option value="13:00">13:00〜</option>
+          <option value="15:00">15:00〜</option>
+        </select>
+      </div>
+      <div class="fg"><label>参加人数</label>
+        <div class="bk-counter">
+          <button class="bk-cnt-btn" onclick="bkChangeCount(-1)">－</button>
+          <span class="bk-cnt-val" id="bkCountVal">2</span>
+          <button class="bk-cnt-btn" onclick="bkChangeCount(1)">＋</button>
+          <span style="font-size:12px;color:var(--mid);margin-left:6px;">名</span>
+        </div>
+      </div>
+      <div class="bk-total-box" id="bkTotalBox"></div>
+      <div style="display:flex;gap:9px;margin-top:16px;">
+        <button class="bk-back-btn" onclick="bkGoStep(1)">← 戻る</button>
+        <button class="bk-next-btn" style="flex:2;" onclick="bkGoStep(3)">予約内容を確認する →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: 確認 -->
+    <div class="bk-pane" id="bkPane3" style="display:none;">
+      <div class="bk-confirm-card" id="bkConfirmCard"></div>
+      <div class="fg"><label>お名前</label><input type="text" id="bkName" placeholder="山田 太郎"></div>
+      <div class="fg"><label>電話番号</label><input type="tel" id="bkTel" placeholder="090-XXXX-XXXX"></div>
+      <div class="fg"><label>メールアドレス</label><input type="email" id="bkEmail" placeholder="example@email.com"></div>
+      <div class="bk-member-notice" id="bkMemberNotice"></div>
+      <div style="display:flex;gap:9px;margin-top:16px;">
+        <button class="bk-back-btn" onclick="bkGoStep(2)">← 戻る</button>
+        <button class="bk-next-btn" style="flex:2;" onclick="bkConfirm()">✅ 予約を確定する</button>
+      </div>
+    </div>
+
+    <!-- STEP 完了 -->
+    <div class="bk-pane" id="bkPaneDone" style="display:none;text-align:center;padding:32px 0 20px;">
+      <div style="font-size:3.5rem;margin-bottom:14px;">✅</div>
+      <div style="font-size:18px;font-weight:900;color:var(--dark);margin-bottom:8px;">予約が完了しました！</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.8;" id="bkDoneMsg"></div>
+      <button class="bk-next-btn" style="margin-top:20px;" onclick="bkClose()">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== お気に入り ===== -->
+<section class="fav-section" id="fav">
+  <div class="section-inner">
+    <div class="spots-header">
+      <div>
+        <div class="sec-label">My Favorites</div>
+        <div class="sec-title" style="margin-bottom:0;">❤️ お気に入りリスト</div>
+        <div style="font-size:12px;color:var(--mid);margin-top:4px;">ハートを押してスポットを保存しよう</div>
+      </div>
+    </div>
+    <div id="favArea">
+      <div class="fav-empty">
+        <div class="fav-empty-ico">🗺️</div>
+        <div class="fav-empty-txt">まだお気に入りがありません。<br>スポット一覧のハートボタンで追加しましょう！</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Pe<em>-come</em></div>
+  <p>
+    潮乃森・沖縄市 地域観光ポータル<br>
+    提供：有限会社エレメンツ<br>
+    <a href="#">自治会加入はこちら</a> ／ <a href="#">加盟店募集</a> ／ <a href="#">プライバシーポリシー</a><br>
+    © 2025 Elements Co., Ltd. All rights reserved.
+  </p>
+</footer>
+
+<!-- DETAIL OVERLAY -->
+<div class="overlay" id="detailOverlay">
+  <div class="dmodal">
+    <div class="dmodal-handle"></div>
+    <button class="dmodal-close" onclick="closeDetail()">✕</button>
+    <div class="dmodal-scroll" id="detailScroll"></div>
+  </div>
+</div>
+
+<!-- RESERVE OVERLAY -->
+<div class="overlay" id="resOverlay">
+  <div class="rmodal">
+    <button class="rmodal-close" onclick="closeRes()">✕</button>
+    <div class="rmodal-title">🗓️ <span id="resSN"></span> を予約</div>
+    <div class="fg"><label>お名前</label><input type="text" placeholder="山田 太郎"></div>
+    <div class="fg"><label>電話番号</label><input type="tel" placeholder="090-XXXX-XXXX"></div>
+    <div class="fg"><label>予約日</label><input type="date" id="resDate"></div>
+    <div class="fg"><label>人数</label><select><option>1名</option><option>2名</option><option>3名</option><option>4名</option><option>5名以上</option></select></div>
+    <div class="r-acts">
+      <button class="r-cancel" onclick="closeRes()">キャンセル</button>
+      <button class="r-confirm" onclick="confirmRes()">✅ 予約を確定する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== DATA ===== */
+const SPOTS = [
+  { id:1, name:"ゴヤ市場 食堂街", cat:"food", tags:["marine","food"], icon:"🍜", bg:"linear-gradient(135deg,#ff9060,#e85d3a)",
+    hours:"10:00〜20:00", tel:"098-XXX-XXXX", open:true,
+    stags:["沖縄そば","定食","市場"],
+    desc:"コザの下町にある昔ながらの市場食堂。本場の沖縄そばとチャンプルーが楽しめます。地元民に愛され続けて50年以上の老舗です。",
+    coupon:{off:"20% OFF",label:"ランチ・ディナー割引"} },
+  { id:2, name:"コザ ミュージックタウン", cat:"sight", tags:["music"], icon:"🎵", bg:"linear-gradient(135deg,#2e7d4f,#1a5c38)",
+    hours:"10:00〜21:00", tel:"098-XXX-XXXX", open:true,
+    stags:["音楽","ライブ","文化"],
+    desc:"沖縄市が誇る音楽の聖地。毎週末ライブイベントが開催され、島唄からロックまで幅広い音楽が楽しめます。",
+    coupon:{off:"25% OFF",label:"ライブチャージ割引"} },
+  { id:3, name:"沖縄市観光物産センター", cat:"shop", tags:["shop"], icon:"🛍️", bg:"linear-gradient(135deg,#d4a853,#b8860b)",
+    hours:"9:00〜18:00", tel:"098-XXX-XXXX", open:true,
+    stags:["お土産","特産品","泡盛"],
+    desc:"沖縄市の特産品が一堂に集まるショップ。泡盛・紅型・シーサーなど沖縄らしいお土産が充実しています。",
+    coupon:null },
+  { id:4, name:"コザ十字路 ステーキハウス", cat:"food", tags:["food"], icon:"🥩", bg:"linear-gradient(135deg,#8b2500,#c04020)",
+    hours:"18:00〜24:00", tel:"098-XXX-XXXX", open:false,
+    stags:["ステーキ","アメリカン","夜営業"],
+    desc:"米軍文化が根付くコザならではのアメリカンステーキハウス。分厚い肉を豪快に味わえる人気店。",
+    coupon:{off:"15% OFF",label:"ディナーコース割引"} },
+  { id:5, name:"沖縄市ホテル コザ", cat:"stay", tags:["stay"], icon:"🏨", bg:"linear-gradient(135deg,#0a4f6e,#1a7fa0)",
+    hours:"IN 15:00〜", tel:"098-XXX-XXXX", open:true,
+    stags:["ホテル","WiFi","駐車場"],
+    desc:"沖縄市中心部に位置するビジネスホテル。観光にもビジネスにも最適なロケーション。Pro会員は優先予約特典あり。",
+    coupon:{off:"10% OFF",label:"宿泊料金割引"} },
+  { id:6, name:"東南植物楽園", cat:"sight", tags:["nature"], icon:"🌺", bg:"linear-gradient(135deg,#2e7d4f,#4caf50)",
+    hours:"9:00〜18:00", tel:"098-XXX-XXXX", open:true,
+    stags:["植物園","自然","家族向け"],
+    desc:"沖縄最大規模の植物楽園。約2000種類の亜熱帯・熱帯植物が楽しめます。夜はイルミネーションも。",
+    coupon:{off:"10% OFF",label:"入園料割引"} },
+  { id:7, name:"コザ 古民家ゲストハウス", cat:"stay", tags:["stay"], icon:"🏡", bg:"linear-gradient(135deg,#5d4037,#795548)",
+    hours:"IN 16:00〜", tel:"098-XXX-XXXX", open:true,
+    stags:["古民家","ゲストハウス","交流"],
+    desc:"沖縄の伝統家屋を改装したゲストハウス。国際色豊かな旅人たちが集まる憩いの場です。",
+    coupon:null },
+  { id:8, name:"潮乃森マリンクラブ", cat:"sight", tags:["marine","fitness"], icon:"🌊", bg:"linear-gradient(135deg,#006994,#0a8fcc)",
+    hours:"9:00〜18:00", tel:"098-XXX-XXXX", open:true,
+    stags:["マリン","SUP","シュノーケル"],
+    desc:"潮乃森エリアのマリンアクティビティ拠点。シュノーケリング・SUP・ダイビングが体験できます。自治会員は月1回無料！",
+    coupon:{off:"月1無料",label:"マリンスポーツ（自治会員）",marine:true} },
+  { id:9, name:"Peare 沖縄・タピック", cat:"sight", tags:["fitness","marine"], icon:"🏊", bg:"linear-gradient(135deg,#1565c0,#42a5f5)",
+    hours:"9:00〜21:00", tel:"098-XXX-XXXX", open:true,
+    stags:["スイミング","フィットネス","温泉"],
+    desc:"スイミングスクール・フィットネス・温泉が揃う複合施設。会員は30%OFFで利用できます。",
+    coupon:{off:"30% OFF",label:"スイミングスクール割引"} },
+];
+
+let favorites = new Set();
+let activeTag = 'all';
+
+/* ===== RENDER SPOTS ===== */
+function renderSpots(list) {
+  const row = document.getElementById('spotRow');
+  document.getElementById('spotCountTxt').textContent = `${list.length} 件のスポット`;
+  row.innerHTML = '';
+  list.forEach(s => {
+    const cpnTop = s.coupon ? `<div class="coupon-badge">🎟 ${s.coupon.off}</div>` : '';
+    const cpnRow = s.coupon ? `
+      <div class="scard-coupon-row">
+        <div class="scard-coupon-txt">🎟 ${s.coupon.label}</div>
+        <button class="scard-coupon-use" onclick="event.stopPropagation();useCoupon('${s.coupon.label}','${s.name}')">使う</button>
+      </div>` : '';
+    const isFav = favorites.has(s.id);
+    const d = document.createElement('div');
+    d.className = 'scard'; d.id = 'scard-'+s.id;
+    d.innerHTML = `
+      <div class="scard-img" style="background:${s.bg}">
+        ${s.icon}
+        ${cpnTop}
+        <button class="scard-fav${isFav?' on':''}" id="fav-${s.id}" onclick="event.stopPropagation();toggleFav(${s.id})">${isFav?'❤️':'🤍'}</button>
+        <div class="${s.open?'open-badge':'closed-badge'}">${s.open?'● 営業中':'● 本日休業'}</div>
+      </div>
+      <div class="scard-body">
+        <div class="scard-cat">${{food:'🍽️ 飲食',stay:'🏨 宿泊',shop:'🛍️ ショップ',sight:'🌟 観光'}[s.cat]}</div>
+        <div class="scard-name">${s.name}</div>
+        <div class="scard-tags">${s.stags.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
+        ${cpnRow}
+      </div>`;
+    d.onclick = () => openDetail(s);
+    row.appendChild(d);
+  });
+}
+
+/* ===== TAG FILTER ===== */
+function filterTag(tag, btn) {
+  activeTag = tag;
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const filtered = tag === 'all' ? SPOTS : SPOTS.filter(s => s.tags.includes(tag));
+  renderSpots(filtered);
+  document.getElementById('spots').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ===== FAVORITES ===== */
+function toggleFav(id) {
+  const s = SPOTS.find(x => x.id === id);
+  if (favorites.has(id)) {
+    favorites.delete(id);
+    document.getElementById('fav-'+id).innerHTML = '🤍';
+    document.getElementById('fav-'+id).classList.remove('on');
+    toast('🤍', `${s.name}`, 'お気に入りから外しました', 2500);
+  } else {
+    favorites.add(id);
+    document.getElementById('fav-'+id).innerHTML = '❤️';
+    document.getElementById('fav-'+id).classList.add('on');
+    toast('❤️', `${s.name}`, 'お気に入りに追加しました！', 2500);
+  }
+  updateFavCount();
+  renderFavList();
+}
+function updateFavCount() {
+  document.getElementById('favCount').textContent = favorites.size;
+}
+function renderFavList() {
+  const area = document.getElementById('favArea');
+  if (favorites.size === 0) {
+    area.innerHTML = `<div class="fav-empty"><div class="fav-empty-ico">🗺️</div><div class="fav-empty-txt">まだお気に入りがありません。<br>スポット一覧のハートボタンで追加しましょう！</div></div>`;
+    return;
+  }
+  area.innerHTML = '<div class="fav-grid" id="favGrid"></div>';
+  const grid = document.getElementById('favGrid');
+  favorites.forEach(id => {
+    const s = SPOTS.find(x => x.id === id);
+    const d = document.createElement('div');
+    d.className = 'fcard';
+    d.innerHTML = `
+      <div class="fcard-ico" style="background:${s.bg}">${s.icon}</div>
+      <div class="fcard-name">${s.name}</div>
+      <button class="fcard-rm" onclick="event.stopPropagation();toggleFav(${s.id})" title="削除">✕</button>`;
+    d.onclick = () => openDetail(s);
+    grid.appendChild(d);
+  });
+}
+function scrollToFav() {
+  document.getElementById('fav').scrollIntoView({behavior:'smooth'});
+}
+
+/* ===== DETAIL ===== */
+function openDetail(s) {
+  const scroll = document.getElementById('detailScroll');
+  const cpnHtml = s.coupon ? `
+    <div class="dm-coupon">
+      <div class="dm-coupon-ico">🎟️</div>
+      <div>
+        <div class="dm-coupon-label">会員クーポン</div>
+        <div class="dm-coupon-val">${s.coupon.off} — ${s.coupon.label}</div>
+      </div>
+      <button class="dm-coupon-btn" onclick="useCoupon('${s.coupon.label}','${s.name}')">今すぐ使う</button>
+    </div>` : '';
+  scroll.innerHTML = `
+    <div class="dm-head">
+      <div class="dm-ico" style="background:${s.bg}">${s.icon}</div>
+      <div>
+        <div class="dm-name">${s.name}</div>
+        <div class="dm-cat">${s.hours}</div>
+        <div class="dm-tags">${s.stags.map(t=>`<span class="dm-tag">${t}</span>`).join('')}<span class="dm-tag ${s.open?'':''}${s.open?'':''}">
+          ${s.open?'● 営業中':'● 本日休業'}</span></div>
+      </div>
+    </div>
+    <div class="dm-grid">
+      <div class="dm-cell"><div class="dm-cell-l">📞 電話</div><div class="dm-cell-v">${s.tel}</div></div>
+      <div class="dm-cell"><div class="dm-cell-l">🕐 営業時間</div><div class="dm-cell-v">${s.hours}</div></div>
+    </div>
+    <div class="dm-desc">${s.desc}</div>
+    ${cpnHtml}
+    <div class="dm-actions">
+      <button class="dm-reserve" onclick="openRes('${s.name}')">🗓️ 予約する</button>
+      <button class="dm-tel" onclick="toast('📞','発信中…','${s.tel}',3000)">📞 電話</button>
+    </div>`;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('detailOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('detailOverlay')) closeDetail();
+});
+
+/* ===== RESERVE ===== */
+function openRes(name) {
+  document.getElementById('resSN').textContent = name;
+  document.getElementById('resDate').value = new Date().toISOString().split('T')[0];
+  closeDetail();
+  document.getElementById('resOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeRes() {
+  document.getElementById('resOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function confirmRes() {
+  closeRes();
+  toast('✅', '予約完了！', '確認メールをお送りします', 4000);
+}
+document.getElementById('resOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('resOverlay')) closeRes();
+});
+
+/* ===== COUPON ===== */
+function useCoupon(label, shop) {
+  toast('🎟️', `${label} を使用！`, `${shop} のスタッフへご提示ください`, 5000);
+}
+
+/* ===== GPS 変数（MAPより先に宣言） ===== */
+let gpsOn = false, gpsTick = null, notified = new Set();
+let uLat = 26.3344, uLng = 127.8056, tidx = 0, tstep = 0;
+const SPOT_LATLNG = [
+  {id:1,lat:26.3360,lng:127.8040,r:160},{id:2,lat:26.3310,lng:127.8020,r:180},
+  {id:3,lat:26.3355,lng:127.8075,r:130},{id:4,lat:26.3325,lng:127.8060,r:140},
+  {id:5,lat:26.3370,lng:127.8090,r:170},{id:6,lat:26.3290,lng:127.8100,r:200},
+  {id:7,lat:26.3380,lng:127.8035,r:120},{id:8,lat:26.3300,lng:127.8045,r:160},
+  {id:9,lat:26.3340,lng:127.8080,r:150},
+];
+function dist(la1,ln1,la2,ln2){
+  const R=6371000,dLa=(la2-la1)*Math.PI/180,dLn=(ln2-ln1)*Math.PI/180;
+  const a=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLn/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+/* ===== MAP CANVAS ===== */
+const CENTER = { lat:26.3344, lng:127.8056 };
+const canvas = document.getElementById('mapCanvas');
+const ctx    = canvas.getContext('2d');
+let zoom=13000, panX=0, panY=0;
+let mapDragging=false, mapLastX=0, mapLastY=0, mapLastPanX=0;
+let selMapSpot=null;
+const catColors2={food:'#e85d3a',stay:'#1a7fa0',shop:'#d4a853',sight:'#2e7d4f'};
+
+function mapResize(){
+  const area=document.getElementById('gpsMapArea');
+  const sb=document.getElementById('mapSidebar');
+  const sbW=window.innerWidth>700?(sb.offsetWidth||210):0;
+  const areaW=area.offsetWidth||document.documentElement.clientWidth;
+  const areaH=window.innerWidth>700?420:300;
+  canvas.width=Math.max(areaW-sbW,100);
+  canvas.height=areaH;
+  mapDraw();
+}
+function ll2xy(lat,lng){
+  const cx=canvas.width/2,cy=canvas.height/2;
+  return{x:cx+(lng-CENTER.lng)*zoom*Math.cos(CENTER.lat*Math.PI/180)+panX,
+         y:cy-(lat-CENTER.lat)*zoom+panY};
+}
+function mapDraw(){
+  if(!canvas.width||!canvas.height)return;
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  // sea
+  ctx.fillStyle='#6abfe0';ctx.fillRect(0,0,W,H);
+  // land
+  const pts=[[26.350,127.790],[26.348,127.810],[26.345,127.825],[26.340,127.830],
+             [26.332,127.828],[26.322,127.820],[26.315,127.808],[26.318,127.796],
+             [26.325,127.788],[26.335,127.782],[26.345,127.784]];
+  ctx.beginPath();
+  pts.forEach(([la,ln],i)=>{const p=ll2xy(la,ln);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);});
+  ctx.closePath();
+  const g=ctx.createLinearGradient(0,0,W,H);
+  g.addColorStop(0,'#b8e0a0');g.addColorStop(1,'#8cc870');
+  ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='#6aab58';ctx.lineWidth=2;ctx.stroke();
+  // roads
+  [[[26.350,127.800],[26.315,127.808]],[[26.334,127.790],[26.334,127.828]],
+   [[26.325,127.792],[26.325,127.822]],[[26.342,127.795],[26.330,127.816]]].forEach((r,i)=>{
+    ctx.beginPath();r.forEach(([la,ln],j)=>{const p=ll2xy(la,ln);j?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);});
+    ctx.strokeStyle=i===0?'rgba(255,255,255,0.7)':'rgba(255,255,255,0.45)';
+    ctx.lineWidth=i===0?4:2.5;ctx.stroke();
+  });
+  // geofence rings
+  if(gpsOn){
+    SPOT_LATLNG.forEach(sl=>{
+      const p=ll2xy(sl.lat,sl.lng),r=sl.r*(zoom/111320);
+      const d=dist(uLat,uLng,sl.lat,sl.lng),near=d<sl.r;
+      ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);
+      ctx.fillStyle=near?'rgba(232,93,58,0.13)':'rgba(26,127,160,0.07)';ctx.fill();
+      ctx.strokeStyle=near?'rgba(232,93,58,0.5)':'rgba(26,127,160,0.25)';
+      ctx.lineWidth=1.5;ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
+    });
+  }
+  // pins
+  SPOTS.forEach(s=>mapDrawPin(s));
+  // user dot
+  if(gpsOn){
+    const p=ll2xy(uLat,uLng);
+    const t=Date.now()%2000/2000;
+    ctx.beginPath();ctx.arc(p.x,p.y,18+t*20,0,Math.PI*2);
+    ctx.fillStyle=`rgba(232,93,58,${0.28*(1-t)})`;ctx.fill();
+    ctx.beginPath();ctx.arc(p.x,p.y,9,0,Math.PI*2);
+    ctx.fillStyle='#e85d3a';ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+  }
+  // compass
+  {const x=W-38,y=38;
+  ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,255,255,0.88)';ctx.fill();
+  ctx.strokeStyle='#ccc';ctx.lineWidth=1;ctx.stroke();
+  ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle='#e85d3a';ctx.fillText('N',x,y-8);
+  ctx.fillStyle='#888';ctx.fillText('S',x,y+8);ctx.fillText('W',x-8,y);ctx.fillText('E',x+8,y);}
+  // scale
+  {const px=200/(111320/zoom),bx=14,by=H-18;
+  ctx.fillStyle='rgba(0,0,0,0.4)';ctx.fillRect(bx,by,px,2);
+  ctx.fillRect(bx,by-3,2,7);ctx.fillRect(bx+px-2,by-3,2,7);
+  ctx.font='9px sans-serif';ctx.fillStyle='rgba(0,0,0,0.5)';
+  ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText('200m',bx+px/2,by-4);}
+}
+function mapDrawPin(s){
+  const sl=SPOT_LATLNG.find(x=>x.id===s.id);if(!sl)return;
+  const p=ll2xy(sl.lat,sl.lng);
+  const isSel=selMapSpot&&selMapSpot.id===s.id;
+  const sz=isSel?24:18;
+  const near=gpsOn&&dist(uLat,uLng,sl.lat,sl.lng)<sl.r;
+  ctx.shadowColor='rgba(0,0,0,0.2)';ctx.shadowBlur=7;ctx.shadowOffsetY=3;
+  ctx.beginPath();ctx.arc(p.x,p.y-sz,sz,0,Math.PI*2);
+  ctx.fillStyle=isSel?'#e85d3a':(near?'#ff6b3d':catColors2[s.cat]);ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=isSel?3:2;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(p.x-5,p.y-sz*0.6);ctx.lineTo(p.x,p.y+4);ctx.lineTo(p.x+5,p.y-sz*0.6);
+  ctx.fillStyle=isSel?'#e85d3a':(near?'#ff6b3d':catColors2[s.cat]);ctx.fill();
+  ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+  ctx.font=`${sz}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(s.icon,p.x,p.y-sz);
+  if(s.coupon){
+    ctx.font='9px serif';ctx.fillStyle='rgba(245,166,35,0.95)';
+    ctx.textAlign='left';ctx.textBaseline='top';
+    ctx.fillText('🎟',p.x+sz*0.55,p.y-sz*1.9);
+  }
+}
+
+// map interaction
+canvas.addEventListener('mousedown',e=>{mapDragging=true;mapLastX=e.clientX;mapLastY=e.clientY;mapLastPanX=panX;});
+canvas.addEventListener('mousemove',e=>{if(!mapDragging)return;panX+=e.clientX-mapLastX;panY+=e.clientY-mapLastY;mapLastX=e.clientX;mapLastY=e.clientY;mapDraw();});
+canvas.addEventListener('mouseup',()=>mapDragging=false);
+canvas.addEventListener('mouseleave',()=>mapDragging=false);
+canvas.addEventListener('wheel',e=>{zoom*=e.deltaY<0?1.12:0.9;zoom=Math.max(5000,Math.min(90000,zoom));mapDraw();e.preventDefault();},{passive:false});
+canvas.addEventListener('click',e=>{
+  if(Math.abs(panX-mapLastPanX)>5)return;
+  const r=canvas.getBoundingClientRect(),cx=e.clientX-r.left,cy=e.clientY-r.top;
+  let hit=null;
+  SPOTS.forEach(s=>{
+    const sl=SPOT_LATLNG.find(x=>x.id===s.id);if(!sl)return;
+    const p=ll2xy(sl.lat,sl.lng);
+    if(Math.hypot(cx-p.x,cy-(p.y-18))<24)hit=s;
+  });
+  if(hit){selMapSpot=hit;openDetail(hit);mapDraw();}
+  else{selMapSpot=null;mapDraw();}
+});
+let ltd2=null;
+canvas.addEventListener('touchstart',e=>{if(e.touches.length===1){mapDragging=true;mapLastX=e.touches[0].clientX;mapLastY=e.touches[0].clientY;mapLastPanX=panX;}if(e.touches.length===2)ltd2=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
+canvas.addEventListener('touchmove',e=>{if(e.touches.length===1&&mapDragging){panX+=e.touches[0].clientX-mapLastX;panY+=e.touches[0].clientY-mapLastY;mapLastX=e.touches[0].clientX;mapLastY=e.touches[0].clientY;mapDraw();}if(e.touches.length===2&&ltd2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);zoom*=d/ltd2;zoom=Math.max(5000,Math.min(90000,zoom));ltd2=d;mapDraw();}},{passive:true});
+canvas.addEventListener('touchend',()=>{mapDragging=false;ltd2=null;});
+
+// sidebar list
+function renderMapSidebar(){
+  const list=document.getElementById('mapSidebarList');
+  list.innerHTML='';
+  SPOTS.forEach(s=>{
+    const sl=SPOT_LATLNG.find(x=>x.id===s.id);
+    const d=gpsOn?dist(uLat,uLng,sl.lat,sl.lng):9999;
+    const near=d<sl.r;
+    const div=document.createElement('div');
+    div.className='msb-item'+(near?' near':'');
+    div.id='msb-'+s.id;
+    div.innerHTML=`<div class="msb-ico">${s.icon}</div><div><div class="msb-name">${s.name}</div>${s.coupon?`<div class="msb-cpn">🎟 ${s.coupon.off}</div>`:''}</div>`;
+    div.onclick=()=>{selMapSpot=s;openDetail(s);mapFocusSpot(sl);};
+    list.appendChild(div);
+  });
+}
+function mapFocusSpot(sl){
+  const p=ll2xy(sl.lat,sl.lng);
+  panX+=canvas.width/2-p.x; panY+=canvas.height/2-p.y+50; mapDraw();
+}
+
+// アニメループ
+function mapLoop(){
+  if(gpsOn){
+    // canvasサイズが0ならリサイズを試みる
+    if(canvas.width===0||canvas.height===0) mapResize();
+    else mapDraw();
+  }
+  requestAnimationFrame(mapLoop);
+}
+mapLoop();
+
+/* ===== GPS SIMULATION ===== */
+function toggleGPS() {
+  gpsOn = !gpsOn;
+  const btn = document.getElementById('gpsBtn');
+  const nc  = document.getElementById('nearbyCount');
+  const mapArea = document.getElementById('gpsMapArea');
+  if (gpsOn) {
+    btn.textContent = '📍 追跡中... (OFFにする)'; btn.classList.add('on');
+    nc.style.display = 'block';
+    // マップ展開
+    mapArea.classList.add('open');
+    // CSS transition 450ms 完了後にサイズ確定してから描画
+    setTimeout(()=>{mapResize();renderMapSidebar();}, 460);
+    // 即時も一度試みる（高さが既に取れる環境向け）
+    setTimeout(()=>mapResize(), 50);
+    uLat = 26.3344+(Math.random()-0.5)*0.012; uLng = 127.8056+(Math.random()-0.5)*0.012;
+    tidx = Math.floor(Math.random()*SPOT_LATLNG.length); tstep = 0;
+    gpsTick = setInterval(gpsStep, 650);
+    // スクロールしてマップを見せる
+    setTimeout(()=>document.getElementById('gps').scrollIntoView({behavior:'smooth',block:'start'}),100);
+    toast('🗺️', '位置情報ON・マップを表示', '近くのスポットに近づくと通知が届きます', 3500);
+  } else {
+    btn.textContent = '📍 位置情報をONにする'; btn.classList.remove('on');
+    nc.style.display = 'none'; nc.textContent = '近くに 0 件';
+    // マップ閉じる
+    mapArea.classList.remove('open');
+    clearInterval(gpsTick); notified.clear();
+    document.getElementById('mapNearChip').textContent='📍 近くに 0 件';
+  }
+}
+function gpsStep() {
+  const t = SPOT_LATLNG[tidx];
+  uLat += (t.lat - uLat)*0.04 + (Math.random()-0.5)*0.0003;
+  uLng += (t.lng - uLng)*0.04 + (Math.random()-0.5)*0.0003;
+  tstep++; if (tstep > 38) { tstep = 0; tidx = Math.floor(Math.random()*SPOT_LATLNG.length); }
+  let n = 0;
+  SPOT_LATLNG.forEach(sl => {
+    const d = dist(uLat,uLng,sl.lat,sl.lng);
+    const msb = document.getElementById('msb-'+sl.id);
+    if (d < sl.r) {
+      n++;
+      msb?.classList.add('near');
+      if (!notified.has(sl.id)) {
+        notified.add(sl.id);
+        const s = SPOTS.find(x => x.id === sl.id);
+        const cpnTxt = s.coupon ? ` 🎟 ${s.coupon.off}` : '';
+        toast(s.icon, `📍 ${s.name} が近くにあります`, `${s.open?'営業中':'本日休業'}${cpnTxt}`, 6000, s);
+      }
+    } else {
+      msb?.classList.remove('near');
+      if (d > sl.r * 1.6) notified.delete(sl.id);
+    }
+  });
+  const txt = `📍 近くに ${n} 件`;
+  document.getElementById('nearbyCount').textContent = txt;
+  document.getElementById('mapNearChip').textContent = txt;
+}
+
+/* ===== WEATHER ===== */
+const CHARA_MSGS = ['今日もマリン日和✨','グルメ巡りはどう？🍜','ライブ情報チェック🎵','クーポン使ってお得に！','自治会に加入しよう🌊'];
+let charaIdx = 0;
+setInterval(() => {
+  charaIdx = (charaIdx+1) % CHARA_MSGS.length;
+  document.getElementById('charaBubble').textContent = CHARA_MSGS[charaIdx];
+}, 4000);
+
+// 今日の日付表示
+(function(){
+  const now = new Date();
+  const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  document.getElementById('wDate').textContent =
+    `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${days[now.getDay()]}`;
+})();
+
+/* ===== TOAST ===== */
+function toast(ico, title, msg, dur=4000, spot=null) {
+  const wrap = document.getElementById('toastWrap');
+  const t = document.createElement('div'); t.className = 'toast';
+  t.innerHTML = `<div class="t-ico">${ico}</div><div class="t-body"><div class="t-title">${title}</div><div class="t-msg">${msg}</div></div>${spot?`<button class="t-act" onclick="openDetail(SPOTS.find(x=>x.id===${spot.id}))">詳細</button>`:''}`;
+  wrap.appendChild(t);
+  setTimeout(() => { t.classList.add('tout'); setTimeout(() => t.remove(), 260); }, dur);
+}
+
+/* ===== SCROLL UTIL ===== */
+function scrollTo(id) { document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+/* ===== NAV ACTIVE ===== */
+const sections = ['tags','gps','spots','special','booking','fav'];
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 80;
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.offsetTop <= y && el.offsetTop + el.offsetHeight > y) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+});
+
+
+/* ===== 体験予約データ ===== */
+const COURSES = [
+  /* ── マリン ── */
+  { id:'m1', cat:'marine', icon:'🤿', name:'シュノーケリング 半日ツアー',
+    bg:'linear-gradient(135deg,#006994,#0a8fcc)',
+    tags:['初心者OK','器材込み','送迎あり'],
+    desc:'沖縄の透き通った海でカラフルな魚たちと泳ごう。インストラクターが丁寧にサポートするので初心者でも安心。器材・保険込み。',
+    duration:'約3時間', min:1, max:10,
+    normalPrice:6500, memberPrice:4500, unit:'/ 人',
+    slots:['09:00','13:00'] },
+  { id:'m2', cat:'marine', icon:'🏄', name:'SUP（スタンドアップパドル）体験',
+    bg:'linear-gradient(135deg,#0097a7,#00bcd4)',
+    tags:['全年齢OK','レンタル込み','潮乃森ビーチ'],
+    desc:'ボードの上に立ってパドルで漕ぐSUPは、バランス感覚と体幹を鍛える大人気アクティビティ。穏やかな潮乃森ビーチで体験できます。',
+    duration:'約2時間', min:1, max:8,
+    normalPrice:5000, memberPrice:3500, unit:'/ 人',
+    slots:['09:00','11:00','13:00','15:00'] },
+  { id:'m3', cat:'marine', icon:'🐠', name:'体験ダイビング（海洋実習）',
+    bg:'linear-gradient(135deg,#1a237e,#1565c0)',
+    tags:['ライセンス不要','インストラクター同行','写真撮影付'],
+    desc:'ライセンスがなくても楽しめる体験ダイビング。インストラクターが常に隣でサポート。水中写真のデータもプレゼント！',
+    duration:'約4時間', min:1, max:4,
+    normalPrice:12000, memberPrice:8500, unit:'/ 人',
+    slots:['09:00','13:00'] },
+  { id:'m4', cat:'marine', icon:'🚣', name:'カヤック＆シュノーケルセット',
+    bg:'linear-gradient(135deg,#00695c,#00897b)',
+    tags:['カップル人気','海上散策','景色最高'],
+    desc:'カヤックで海上を散策した後、そのままシュノーケリングへ。2つのアクティビティがセットでお得！',
+    duration:'約3.5時間', min:2, max:6,
+    normalPrice:9000, memberPrice:6500, unit:'/ 人',
+    slots:['09:00','13:00'] },
+
+  /* ── モビリティ ── */
+  { id:'v1', cat:'mobility', icon:'🛵', name:'電動バイク 半日レンタル',
+    bg:'linear-gradient(135deg,#e65100,#ff8f00)',
+    tags:['免許不要(原付)', '充電済', 'マップ付'],
+    desc:'沖縄市をスイスイ走れる電動バイクで自由気ままなドライブ。充電済みでお渡し。観光マップと充電スポット情報も付属。',
+    duration:'4時間', min:1, max:4,
+    normalPrice:3500, memberPrice:2500, unit:'/ 台',
+    slots:['09:00','11:00','13:00','15:00'] },
+  { id:'v2', cat:'mobility', icon:'🚲', name:'Eバイク（電動自転車）1日レンタル',
+    bg:'linear-gradient(135deg,#2e7d32,#43a047)',
+    tags:['環境にやさしい','坂道ラクラク','カゴ付'],
+    desc:'アシスト付きで坂道もスイスイ。沖縄市の路地裏から海岸線まで、自分のペースで観光を楽しもう。',
+    duration:'終日（9:00〜18:00）', min:1, max:6,
+    normalPrice:2500, memberPrice:1800, unit:'/ 台',
+    slots:['09:00'] },
+  { id:'v3', cat:'mobility', icon:'🏎️', name:'ゴーカート 沖縄コース体験',
+    bg:'linear-gradient(135deg,#b71c1c,#e53935)',
+    tags:['ファミリー歓迎','身長120cm〜','ヘルメット貸出'],
+    desc:'本格コースを走るゴーカート体験！家族みんなで楽しめる沖縄唯一のレーシングカート施設。複数周回OK。',
+    duration:'約1時間', min:1, max:8,
+    normalPrice:4000, memberPrice:3000, unit:'/ 人',
+    slots:['09:00','11:00','13:00','15:00'] },
+  { id:'v4', cat:'mobility', icon:'🛺', name:'電動トゥクトゥク 観光ツアー',
+    bg:'linear-gradient(135deg,#4a148c,#7b1fa2)',
+    tags:['ガイド付き','コザ周遊','写真スポット案内'],
+    desc:'3輪電動トゥクトゥクでコザの街をガイドと一緒にめぐる観光ツアー。地元ガイドが知る穴場スポットも案内します！',
+    duration:'約2時間', min:1, max:3,
+    normalPrice:5500, memberPrice:3800, unit:'/ 人',
+    slots:['09:00','11:00','13:00','15:00'] },
+];
+
+let bkActiveCat = 'marine';
+let bkSelectedCourse = null;
+let bkCount = 2;
+let bkCurrentStep = 1;
+
+/* コース描画 */
+function bkRenderCourses(cat) {
+  const grid = document.getElementById('bkCourseGrid');
+  const list = COURSES.filter(c => c.cat === cat);
+  grid.innerHTML = '';
+  list.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'bk-course-card';
+    const disc = Math.round((1 - c.memberPrice / c.normalPrice) * 100);
+    d.innerHTML = `
+      <div class="bk-card-img" style="background:${c.bg}">
+        ${c.icon}
+        <div class="bk-card-cat-badge">${cat === 'marine' ? '🌊 マリン' : '🛵 モビリティ'}</div>
+        <div class="bk-card-dur">⏱ ${c.duration}</div>
+      </div>
+      <div class="bk-card-body">
+        <div class="bk-card-name">${c.name}</div>
+        <div class="bk-card-desc">${c.desc.slice(0,52)}…</div>
+        <div class="bk-card-price">
+          <div>
+            <div class="bk-price-normal">通常 ¥${c.normalPrice.toLocaleString()}</div>
+            <div style="display:flex;align-items:baseline;gap:4px;">
+              <div class="bk-price-member">¥${c.memberPrice.toLocaleString()}</div>
+              <div class="bk-price-unit">${c.unit}（会員価格）</div>
+            </div>
+          </div>
+          <div style="background:var(--coral);color:#fff;font-size:11px;font-weight:900;padding:4px 9px;border-radius:8px;height:fit-content;">${disc}% OFF</div>
+        </div>
+        <button class="bk-card-btn" onclick="bkOpenModal('${c.id}')">🗓️ この体験を予約する</button>
+      </div>`;
+    grid.appendChild(d);
+  });
+}
+function bkFilterCat(cat, btn) {
+  bkActiveCat = cat;
+  document.querySelectorAll('.bk-cattab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  bkRenderCourses(cat);
+}
+
+/* モーダル開閉 */
+function bkOpenModal(courseId) {
+  bkSelectedCourse = COURSES.find(c => c.id === courseId);
+  bkCount = 2;
+  document.getElementById('bkCountVal').textContent = bkCount;
+  document.getElementById('bkDate').value = new Date().toISOString().split('T')[0];
+  bkGoStep(1);
+  document.getElementById('bkOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function bkClose() {
+  document.getElementById('bkOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('bkOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('bkOverlay')) bkClose();
+});
+
+/* ステップ管理 */
+function bkGoStep(step) {
+  bkCurrentStep = step;
+  [1,2,3,'Done'].forEach(s => {
+    const el = document.getElementById(s === 'Done' ? 'bkPaneDone' : 'bkPane'+s);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById(step === 'Done' ? 'bkPaneDone' : 'bkPane'+step).style.display = 'block';
+  // インジケーター更新
+  [1,2,3].forEach(s => {
+    const ind = document.getElementById('bkStep'+s+'Ind');
+    if (!ind) return;
+    ind.className = 'bk-step' + (s < step ? ' done' : s === step ? ' on' : '');
+  });
+  if (step === 1) bkRenderStep1();
+  if (step === 2) bkRenderStep2();
+  if (step === 3) bkRenderStep3();
+}
+
+function bkRenderStep1() {
+  const c = bkSelectedCourse;
+  document.getElementById('bkCourseDetail').innerHTML = `
+    <div class="bkd-img" style="background:${c.bg}">${c.icon}</div>
+    <div class="bkd-name">${c.name}</div>
+    <div class="bkd-tags">${c.tags.map(t=>`<span class="bkd-tag">${t}</span>`).join('')}</div>
+    <div class="bkd-desc">${c.desc}</div>
+    <div class="bkd-info-grid">
+      <div class="bkd-info"><div class="bkd-info-l">⏱ 所要時間</div><div class="bkd-info-v">${c.duration}</div></div>
+      <div class="bkd-info"><div class="bkd-info-l">👥 定員</div><div class="bkd-info-v">${c.min}〜${c.max}名</div></div>
+      <div class="bkd-info"><div class="bkd-info-l">💴 通常価格</div><div class="bkd-info-v" style="text-decoration:line-through;color:#aaa;">¥${c.normalPrice.toLocaleString()} ${c.unit}</div></div>
+      <div class="bkd-info"><div class="bkd-info-l">🎟 会員価格</div><div class="bkd-info-v" style="color:var(--teal);">¥${c.memberPrice.toLocaleString()} ${c.unit}</div></div>
+    </div>`;
+}
+
+function bkRenderStep2() {
+  const c = bkSelectedCourse;
+  // 価格バナー
+  const disc = Math.round((1 - c.memberPrice / c.normalPrice) * 100);
+  document.getElementById('bkPriceBanner').innerHTML = `
+    <div class="bpb-label">💴 料金（1名あたり）</div>
+    <div class="bpb-prices">
+      <div class="bpb-normal">¥${c.normalPrice.toLocaleString()}</div>
+      <div class="bpb-member">¥${c.memberPrice.toLocaleString()}</div>
+      <div class="bpb-unit">${c.unit}</div>
+      <div style="background:var(--coral);color:#fff;font-size:10px;font-weight:900;padding:2px 8px;border-radius:6px;">${disc}%OFF</div>
+    </div>`;
+  // 時間セレクトを更新
+  const sel = document.getElementById('bkTime');
+  sel.innerHTML = c.slots.map(s=>`<option value="${s}">${s}〜</option>`).join('');
+  bkUpdateTotal();
+}
+
+function bkUpdateTotal() {
+  const c = bkSelectedCourse;
+  if (!c) return;
+  const total = c.memberPrice * bkCount;
+  document.getElementById('bkTotalBox').innerHTML = `
+    <div>
+      <div class="bk-total-label">合計金額（会員価格）</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;">¥${c.memberPrice.toLocaleString()} × ${bkCount}名</div>
+    </div>
+    <div class="bk-total-val">¥${total.toLocaleString()}</div>`;
+}
+
+function bkChangeCount(delta) {
+  const c = bkSelectedCourse;
+  bkCount = Math.max(c.min, Math.min(c.max, bkCount + delta));
+  document.getElementById('bkCountVal').textContent = bkCount;
+  bkUpdateTotal();
+}
+
+function bkRenderStep3() {
+  const c = bkSelectedCourse;
+  const date = document.getElementById('bkDate').value;
+  const time = document.getElementById('bkTime').value;
+  const total = c.memberPrice * bkCount;
+  document.getElementById('bkConfirmCard').innerHTML = `
+    <div class="bk-cc-row"><span class="bk-cc-label">体験コース</span><span style="font-weight:700;">${c.name}</span></div>
+    <div class="bk-cc-row"><span class="bk-cc-label">体験日時</span><span style="font-weight:700;">${date} ${time}〜</span></div>
+    <div class="bk-cc-row"><span class="bk-cc-label">参加人数</span><span style="font-weight:700;">${bkCount}名</span></div>
+    <div class="bk-cc-row"><span class="bk-cc-label">通常料金</span><span style="text-decoration:line-through;color:#aaa;">¥${(c.normalPrice*bkCount).toLocaleString()}</span></div>
+    <div class="bk-cc-row"><span class="bk-cc-label">🎟 会員割引合計</span><span style="color:var(--teal);">¥${total.toLocaleString()}</span></div>
+  `;
+  document.getElementById('bkMemberNotice').innerHTML =
+    `✅ 会員価格が適用されます。通常より <strong>¥${((c.normalPrice - c.memberPrice)*bkCount).toLocaleString()}</strong> お得！`;
+}
+
+function bkConfirm() {
+  const name = document.getElementById('bkName').value.trim();
+  const tel  = document.getElementById('bkTel').value.trim();
+  if (!name || !tel) {
+    toast('⚠️','入力エラー','お名前と電話番号を入力してください',3000);
+    return;
+  }
+  const c = bkSelectedCourse;
+  const date = document.getElementById('bkDate').value;
+  const time = document.getElementById('bkTime').value;
+  document.getElementById('bkDoneMsg').innerHTML =
+    `<strong>${c.name}</strong><br>${date} ${time}〜 / ${bkCount}名<br><br>ご予約の確認メールをお送りします。<br>当日は受付にてお名前をお伝えください 🌺`;
+  bkGoStep('Done');
+  // ステップインジケーター全done
+  [1,2,3].forEach(s => {
+    const ind = document.getElementById('bkStep'+s+'Ind');
+    if (ind) { ind.className = 'bk-step done'; }
+  });
+}
+
+/* 初期描画 */
+bkRenderCourses('marine');
+
+/* ===== INIT ===== */
+window.addEventListener('resize', ()=>{ if(gpsOn) mapResize(); });
+renderSpots(SPOTS);
+setTimeout(() => toast('🏝️', 'Pe-comeへようこそ！', 'ハートでお気に入り登録、GPSで近くの通知を試してみよう', 5000), 1000);
+</script>
+</body>
+</html>
